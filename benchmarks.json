@@ -1,0 +1,81 @@
+{
+    "Default": {
+      "Source": {
+        "Repository": "https://github.com/rynowak/benchmarks-playground.git",
+        "BranchOrCommit": "master"
+      }
+    },
+    "WeatherApp-RouteToCode": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 80,
+      "ReadyStateText": "Application started.",
+      "Source": {
+        "DockerImageName": "weatherapp-route-to-code",
+        "DockerContextDirectory": "dotnet/weatherapp-route-to-code/",
+        "DockerFile": "dotnet/weatherapp-route-to-code/Dockerfile"
+      }
+    },
+    "WeatherApp-Controllers": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 80,
+      "ReadyStateText": "Application started.",
+      "Source": {
+        "DockerImageName": "weatherapp-controllers",
+        "DockerContextDirectory": "dotnet/weatherapp-controllers/",
+        "DockerFile": "dotnet/weatherapp-controllers/Dockerfile"
+      }
+    },
+    "WeatherApp-Go": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 5000,
+      "ReadyStateText": "app listening on port 5000!",
+      "Source": {
+        "DockerImageName": "weatherapp-go",
+        "DockerContextDirectory": "go/weatherapp-go/",
+        "DockerFile": "go/weatherapp-go/Dockerfile"
+      }
+    },
+    "WeatherApp-GoFastHttp": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 5000,
+      "ReadyStateText": "app listening on port 5000!",
+      "Source": {
+        "DockerImageName": "weatherapp-gofasthttp",
+        "DockerContextDirectory": "go/weatherapp-gofasthttp/",
+        "DockerFile": "go/weatherapp-gofasthttp/Dockerfile"
+      }
+    },
+    "WeatherApp-Express": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 5000,
+      "ReadyStateText": "app listening on port 5000!",
+      "Source": {
+        "DockerImageName": "weatherapp-express",
+        "DockerContextDirectory": "node/weatherapp-express/",
+        "DockerFile": "node/weatherapp-express/Dockerfile"
+      }
+    },
+    "WeatherApp-SpringBoot": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 5000,
+      "ReadyStateText": "Tomcat started on port(s): 5000",
+      "Source": {
+        "DockerImageName": "weatherapp-springboot",
+        "DockerContextDirectory": "java/weatherapp-springboot/",
+        "DockerFile": "java/weatherapp-springboot/Dockerfile"
+      }
+    }
+  }
+  
