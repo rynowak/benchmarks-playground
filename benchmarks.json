@@ -2,7 +2,7 @@
     "Default": {
       "Source": {
         "Repository": "https://github.com/rynowak/benchmarks-playground.git",
-        "BranchOrCommit": "master"
+        "BranchOrCommit": "rynowak/3.0"
       }
     },
     "WeatherApp-RouteToCode": {
