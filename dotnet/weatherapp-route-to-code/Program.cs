@@ -20,6 +20,17 @@ namespace weatherapp_route_to_code
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseSockets(options =>
+                    {
+                        Console.WriteLine("IOCOUNT ORIGINAL VALUE YO: " + options.IOQueueCount);
+
+                        if (int.TryParse(System.Environment.GetEnvironmentVariable("IOQUEUECOUNT"), out var count))
+                        {
+                            options.IOQueueCount = count;
+
+                            Console.WriteLine("IOCOUNT NEW VALUE YO: " + options.IOQueueCount);
+                        }
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }
