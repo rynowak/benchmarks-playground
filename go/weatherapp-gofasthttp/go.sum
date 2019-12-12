@@ -1,5 +1,7 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/fasthttp/router v0.5.2 h1:xdmx8uYc9IFDtlbG2/FhE1Gyowv7/sqMgMonRjoW0Yo=
+github.com/fasthttp/router v0.5.2/go.mod h1:Y5JAeRTSPwSLoUgH4x75UnT1j1IcAgVshMDMMrnNmKQ=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
 github.com/json-iterator/go v1.1.8 h1:QiWkFLKq0T7mpzwOTu6BzNDbfTE8OLrYhVKYMLF46Ok=
 github.com/json-iterator/go v1.1.8/go.mod h1:KdQUCv79m/52Kvf8AW2vK1V8akMuk1QjK/uOdHXbAo4=
@@ -14,6 +16,8 @@ github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742/go.mod h1:bx2lN
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/qiangxue/fasthttp-routing v0.0.0-20160225050629-6ccdc2a18d87 h1:u7uCM+HS2caoEKSPtSFQvvUDXQtqZdu3MYtF+QEw7vA=
 github.com/qiangxue/fasthttp-routing v0.0.0-20160225050629-6ccdc2a18d87/go.mod h1:zwr0xP4ZJxwCS/g2d+AUOUwfq/j2NC7a1rK3F0ZbVYM=
+github.com/savsgio/gotils v0.0.0-20190925070755-524bc4f47500 h1:9Pi10H7E8E79/x2HSe1FmMGd7BJ1WAqDKzwjpv+ojFg=
+github.com/savsgio/gotils v0.0.0-20190925070755-524bc4f47500/go.mod h1:lHhJedqxCoHN+zMtwGNTXWmF0u9Jt363FYRhV6g0CdY=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
