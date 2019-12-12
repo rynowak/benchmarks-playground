@@ -14,8 +14,7 @@ type weatherReport struct {
 
 func weather(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	report := weatherReport{"Seattle", "Cloudy"}
-	json.NewEncoder(w).Encode(report)
+	json.NewEncoder(w).Encode(weatherReport{"Seattle", "Cloudy"})
 }
 
 func main() {
