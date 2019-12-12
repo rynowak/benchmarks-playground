@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	jsoniter "github.com/json-iterator/go"
 	routing "github.com/qiangxue/fasthttp-routing"
@@ -13,17 +14,21 @@ type weatherReport struct {
 	Weather  string `json:"weather"`
 }
 
+var json jsoniter.API = jsoniter.ConfigFastest
+
 func main() {
 	router := routing.New()
-
 	router.Get("/", func(c *routing.Context) error {
 		c.SetContentType("application/json")
-		report := weatherReport{"Seattle", "Cloudy"}
-		var json = jsoniter.ConfigCompatibleWithStandardLibrary
-		json.NewEncoder(c).Encode(report)
+		json.NewEncoder(c).Encode(weatherReport{"Seattle", "Cloudy"})
 		return nil
 	})
 
+	s := fasthttp.Server{
+		TCPKeepalive:       true,
+		TCPKeepalivePeriod: 30 * time.Second,
+		Handler:            router.HandleRequest,
+	}
 	fmt.Println("app listening on port 5000!")
-	panic(fasthttp.ListenAndServe(":5000", router.HandleRequest))
+	panic(s.ListenAndServe(":5000"))
 }
