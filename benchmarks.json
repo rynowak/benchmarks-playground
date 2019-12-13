@@ -65,6 +65,18 @@
         "DockerFile": "node/weatherapp-express/Dockerfile"
       }
     },
+    "WeatherApp-Flask": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 5000,
+      "ReadyStateText": "Listening at:",
+      "Source": {
+        "DockerImageName": "weatherapp-flask",
+        "DockerContextDirectory": "python/weatherapp-flask/",
+        "DockerFile": "python/weatherapp-flask/Dockerfile"
+      }
+    },
     "WeatherApp-SpringBoot": {
       "Path": "/",
       "PresetHeaders": "Json",
