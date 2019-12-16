@@ -16,12 +16,12 @@ I specifically want to avoid doing anything esoteric in the code, or doing lots 
 
 ## What does the app do
 
-The app is a tiny REST API. It accepts and and serves a really small JSOM payload. It also makes an outgoing HTTP call to itself.
+The app is a tiny REST API. It serves a really small JSOM payload. It also makes an outgoing HTTP call to itself.
 
 Why do all of this? This set of things is designed to include features that are critical to the microservices programming style (for REST/JSON).
 
 - Incoming HTTP
-- JSON Serialization/Deserialization
+- JSON Serialization
 - Outgoing HTTP
 - Threading model (async in .NET)
 

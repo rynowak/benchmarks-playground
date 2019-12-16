@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace weatherapp_controllers
 {
@@ -19,6 +20,7 @@ namespace weatherapp_controllers
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpClient(Options.DefaultName);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

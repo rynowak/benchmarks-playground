@@ -16,14 +16,28 @@ type weatherReport struct {
 
 var json jsoniter.API = jsoniter.ConfigFastest
 
-func index(ctx *fasthttp.RequestCtx) {
+func weather(ctx *fasthttp.RequestCtx) {
+
+	_, body, err := fasthttp.Get(nil, "http://localhost:5000/forecast")
+	if err != nil {
+		ctx.Error(fmt.Sprintf("%s", err), fasthttp.StatusInternalServerError)
+		return
+	}
+
+	forecast := string(body)
 	ctx.SetContentType("application/json")
-	json.NewEncoder(ctx).Encode(weatherReport{"Seattle", "Cloudy"})
+	json.NewEncoder(ctx).Encode(weatherReport{"Seattle", forecast})
+}
+
+func forecast(ctx *fasthttp.RequestCtx) {
+	ctx.SetContentType("text/plain")
+	ctx.Write([]byte("Cloudy"))
 }
 
 func main() {
 	r := router.New()
-	r.GET("/", index)
+	r.GET("/", weather)
+	r.GET("/forecast", forecast)
 
 	s := fasthttp.Server{
 		TCPKeepalive:       true,
