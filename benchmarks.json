@@ -2,14 +2,14 @@
     "Default": {
       "Source": {
         "Repository": "https://github.com/rynowak/benchmarks-playground.git",
-        "BranchOrCommit": "rynowak/3.0"
+        "BranchOrCommit": "master"
       }
     },
     "WeatherApp-RouteToCode": {
       "Path": "/",
       "PresetHeaders": "Json",
       "Client": "Wrk",
-      "Port": 80,
+      "Port": 5000,
       "ReadyStateText": "Application started.",
       "Source": {
         "DockerImageName": "weatherapp-route-to-code",
@@ -21,7 +21,7 @@
       "Path": "/",
       "PresetHeaders": "Json",
       "Client": "Wrk",
-      "Port": 80,
+      "Port": 5000,
       "ReadyStateText": "Application started.",
       "Source": {
         "DockerImageName": "weatherapp-controllers",
@@ -63,6 +63,18 @@
         "DockerImageName": "weatherapp-express",
         "DockerContextDirectory": "node/weatherapp-express/",
         "DockerFile": "node/weatherapp-express/Dockerfile"
+      }
+    },
+    "WeatherApp-ExpressClustered": {
+      "Path": "/",
+      "PresetHeaders": "Json",
+      "Client": "Wrk",
+      "Port": 5000,
+      "ReadyStateText": "app listening on port 5000!",
+      "Source": {
+        "DockerImageName": "weatherapp-expressclustered",
+        "DockerContextDirectory": "node/weatherapp-expressclustered/",
+        "DockerFile": "node/weatherapp-expressclustered/Dockerfile"
       }
     },
     "WeatherApp-Flask": {

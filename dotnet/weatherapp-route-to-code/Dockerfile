@@ -12,4 +12,4 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "weatherapp-route-to-code.dll"]
+ENTRYPOINT ["dotnet", "weatherapp-route-to-code.dll", "--urls=http://*:5000"]
