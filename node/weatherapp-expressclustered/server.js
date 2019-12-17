@@ -3,10 +3,14 @@ const os = require('os')
 const express = require('express')
 const request = require('request')
 
+var cpus = os.cpus().length;
+if (process.env.CPUS) {
+    cpus = parseInt(process.env.CPUS);
+}
+
 if (cluster.isMaster) {
-    const cpuCount = os.cpus().length
-    for (let i = 0; i < cpuCount; i++) {
-        cluster.fork()
+    for (let i = 0; i < cpus; i++) {
+        cluster.fork();
     }
 }
 else {
