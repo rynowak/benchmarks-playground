@@ -94,7 +94,7 @@
       "PresetHeaders": "Json",
       "Client": "Wrk",
       "Port": 5000,
-      "ReadyStateText": "Tomcat started on port(s): 5000",
+      "ReadyStateText": "Started WeatherappApplication",
       "Source": {
         "DockerImageName": "weatherapp-springboot",
         "DockerContextDirectory": "java/weatherapp-springboot/",
