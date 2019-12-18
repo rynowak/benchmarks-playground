@@ -3,13 +3,16 @@
       "Source": {
         "Repository": "https://github.com/rynowak/benchmarks-playground.git",
         "BranchOrCommit": "master"
-      }
-    },
-    "WeatherApp-RouteToCode": {
+      },
+      "Client": "Wrk",
+      "Connections": 256,
+      "Threads": 32,
+
       "Path": "/",
       "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
+      "Port": 5000
+    },
+    "WeatherApp-RouteToCode": {
       "ReadyStateText": "Application started.",
       "Source": {
         "DockerImageName": "weatherapp-route-to-code",
@@ -18,10 +21,6 @@
       }
     },
     "WeatherApp-Controllers": {
-      "Path": "/",
-      "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
       "ReadyStateText": "Application started.",
       "Source": {
         "DockerImageName": "weatherapp-controllers",
@@ -30,10 +29,6 @@
       }
     },
     "WeatherApp-Go": {
-      "Path": "/",
-      "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
       "ReadyStateText": "app listening on port 5000!",
       "Source": {
         "DockerImageName": "weatherapp-go",
@@ -42,10 +37,6 @@
       }
     },
     "WeatherApp-GoFastHttp": {
-      "Path": "/",
-      "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
       "ReadyStateText": "app listening on port 5000!",
       "Source": {
         "DockerImageName": "weatherapp-gofasthttp",
@@ -54,10 +45,6 @@
       }
     },
     "WeatherApp-Express": {
-      "Path": "/",
-      "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
       "ReadyStateText": "app listening on port 5000!",
       "Source": {
         "DockerImageName": "weatherapp-express",
@@ -66,10 +53,6 @@
       }
     },
     "WeatherApp-ExpressClustered": {
-      "Path": "/",
-      "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
       "ReadyStateText": "app listening on port 5000!",
       "Source": {
         "DockerImageName": "weatherapp-expressclustered",
@@ -78,10 +61,6 @@
       }
     },
     "WeatherApp-Flask": {
-      "Path": "/",
-      "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
       "ReadyStateText": "Listening at:",
       "Source": {
         "DockerImageName": "weatherapp-flask",
@@ -91,9 +70,6 @@
     },
     "WeatherApp-SpringBoot": {
       "Path": "/",
-      "PresetHeaders": "Json",
-      "Client": "Wrk",
-      "Port": 5000,
       "ReadyStateText": "Started WeatherappApplication",
       "Source": {
         "DockerImageName": "weatherapp-springboot",
