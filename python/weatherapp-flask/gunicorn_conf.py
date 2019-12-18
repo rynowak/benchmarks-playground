@@ -7,6 +7,5 @@ if "CPUS" in os.environ:
 
 bind = "0.0.0.0:5000"
 keepalive = 120
-accesslog = '-'
 errorlog = '-'
 pidfile = 'gunicorn.pid'
