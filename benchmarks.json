@@ -1,81 +1,79 @@
 {
-    "Default": {
-      "Source": {
-        "Repository": "https://github.com/rynowak/benchmarks-playground.git",
-        "BranchOrCommit": "master"
-      },
-      "Client": "Wrk",
-      "Connections": 256,
-      "Threads": 32,
-
-      "Path": "/",
-      "PresetHeaders": "Json",
-      "Port": 5000
+  "Default": {
+    "Source": {
+      "Repository": "https://github.com/rynowak/benchmarks-playground.git",
+      "BranchOrCommit": "master"
     },
-    "WeatherApp-RouteToCode": {
-      "ReadyStateText": "Application started.",
-      "Source": {
-        "DockerImageName": "weatherapp-route-to-code",
-        "DockerContextDirectory": "dotnet/weatherapp-route-to-code/",
-        "DockerFile": "dotnet/weatherapp-route-to-code/Dockerfile"
-      }
-    },
-    "WeatherApp-Controllers": {
-      "ReadyStateText": "Application started.",
-      "Source": {
-        "DockerImageName": "weatherapp-controllers",
-        "DockerContextDirectory": "dotnet/weatherapp-controllers/",
-        "DockerFile": "dotnet/weatherapp-controllers/Dockerfile"
-      }
-    },
-    "WeatherApp-Go": {
-      "ReadyStateText": "app listening on port 5000!",
-      "Source": {
-        "DockerImageName": "weatherapp-go",
-        "DockerContextDirectory": "go/weatherapp-go/",
-        "DockerFile": "go/weatherapp-go/Dockerfile"
-      }
-    },
-    "WeatherApp-GoFastHttp": {
-      "ReadyStateText": "app listening on port 5000!",
-      "Source": {
-        "DockerImageName": "weatherapp-gofasthttp",
-        "DockerContextDirectory": "go/weatherapp-gofasthttp/",
-        "DockerFile": "go/weatherapp-gofasthttp/Dockerfile"
-      }
-    },
-    "WeatherApp-Express": {
-      "ReadyStateText": "app listening on port 5000!",
-      "Source": {
-        "DockerImageName": "weatherapp-express",
-        "DockerContextDirectory": "node/weatherapp-express/",
-        "DockerFile": "node/weatherapp-express/Dockerfile"
-      }
-    },
-    "WeatherApp-ExpressClustered": {
-      "ReadyStateText": "app listening on port 5000!",
-      "Source": {
-        "DockerImageName": "weatherapp-expressclustered",
-        "DockerContextDirectory": "node/weatherapp-expressclustered/",
-        "DockerFile": "node/weatherapp-expressclustered/Dockerfile"
-      }
-    },
-    "WeatherApp-Flask": {
-      "ReadyStateText": "Listening at:",
-      "Source": {
-        "DockerImageName": "weatherapp-flask",
-        "DockerContextDirectory": "python/weatherapp-flask/",
-        "DockerFile": "python/weatherapp-flask/Dockerfile"
-      }
-    },
-    "WeatherApp-SpringBoot": {
-      "Path": "/",
-      "ReadyStateText": "Started WeatherappApplication",
-      "Source": {
-        "DockerImageName": "weatherapp-springboot",
-        "DockerContextDirectory": "java/weatherapp-springboot/",
-        "DockerFile": "java/weatherapp-springboot/Dockerfile"
-      }
+    "Client": "Wrk",
+    "Connections": 256,
+    "Threads": 32,
+    "Path": "/",
+    "PresetHeaders": "Json",
+    "Port": 5000
+  },
+  "WeatherApp-RouteToCode": {
+    "ReadyStateText": "Application started.",
+    "Source": {
+      "DockerImageName": "weatherapp-route-to-code",
+      "DockerContextDirectory": "dotnet/weatherapp-route-to-code/",
+      "DockerFile": "dotnet/weatherapp-route-to-code/Dockerfile"
+    }
+  },
+  "WeatherApp-Controllers": {
+    "ReadyStateText": "Application started.",
+    "Source": {
+      "DockerImageName": "weatherapp-controllers",
+      "DockerContextDirectory": "dotnet/weatherapp-controllers/",
+      "DockerFile": "dotnet/weatherapp-controllers/Dockerfile"
+    }
+  },
+  "WeatherApp-Go": {
+    "ReadyStateText": "app listening on port 5000!",
+    "Source": {
+      "DockerImageName": "weatherapp-go",
+      "DockerContextDirectory": "go/weatherapp-go/",
+      "DockerFile": "go/weatherapp-go/Dockerfile"
+    }
+  },
+  "WeatherApp-GoFastHttp": {
+    "ReadyStateText": "app listening on port 5000!",
+    "Source": {
+      "DockerImageName": "weatherapp-gofasthttp",
+      "DockerContextDirectory": "go/weatherapp-gofasthttp/",
+      "DockerFile": "go/weatherapp-gofasthttp/Dockerfile"
+    }
+  },
+  "WeatherApp-Express": {
+    "ReadyStateText": "app listening on port 5000!",
+    "Source": {
+      "DockerImageName": "weatherapp-express",
+      "DockerContextDirectory": "node/weatherapp-express/",
+      "DockerFile": "node/weatherapp-express/Dockerfile"
+    }
+  },
+  "WeatherApp-ExpressClustered": {
+    "ReadyStateText": "app listening on port 5000!",
+    "Source": {
+      "DockerImageName": "weatherapp-expressclustered",
+      "DockerContextDirectory": "node/weatherapp-expressclustered/",
+      "DockerFile": "node/weatherapp-expressclustered/Dockerfile"
+    }
+  },
+  "WeatherApp-Flask": {
+    "ReadyStateText": "Listening at:",
+    "Source": {
+      "DockerImageName": "weatherapp-flask",
+      "DockerContextDirectory": "python/weatherapp-flask/",
+      "DockerFile": "python/weatherapp-flask/Dockerfile"
+    }
+  },
+  "WeatherApp-SpringBoot": {
+    "Path": "/",
+    "ReadyStateText": "Started WeatherappApplication",
+    "Source": {
+      "DockerImageName": "weatherapp-springboot",
+      "DockerContextDirectory": "java/weatherapp-springboot/",
+      "DockerFile": "java/weatherapp-springboot/Dockerfile"
     }
   }
-  
+}
