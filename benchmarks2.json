@@ -115,22 +115,23 @@
         "branchOrCommit": "master",
         "project": "src/PipeliningClient/PipeliningClient.csproj"
       },
-      "isConsoleApp": true,
       "readyStateText": "Starting",
       "sdkVersion": "3.0.100",
       "aspnetcoreversion": "3.0",
       "runtimeversion": "3.0",
-      "noArguments": true,
-      "waitForExit": true,
+      "waitForExit": true, // Blocking
       "scenario": "PipelineClient",
+      // "span": "1:00:00", // Keeps repeating the jobs for this duration
       "variables": {
         "connections": 256,
         "warmup": 5,
         "duration": 5,
         "pipeline": 16,
-        "preset-headers": "none"
+        "min": 0, // minimum number of connections
+        "rate": 0, // growth rate of connections
+        "interval": 1
       },
-      "arguments": "--url \"{{serverUri}}{{path}}\" --connections {{connections}} --warmup {{warmup}} --duration {{duration}} --pipeline {{pipeline}} {{header-sets[preset-headers]}}"
+      "arguments": "--url \"{{serverUri}}{{path}}\" --connections {{connections}} {% if min != 0 %} -m {{ min }} {% endif %} {% if rate != 0 %} -r {{ rate }} {% endif %} {% if interval != 1 %} -i {{ interval }} {% endif %} --warmup {{warmup}} --duration {{duration}} --pipeline {{pipeline}} {{header-sets[preset-headers]}}"
     },
     "bombardier": {
       "source": {
