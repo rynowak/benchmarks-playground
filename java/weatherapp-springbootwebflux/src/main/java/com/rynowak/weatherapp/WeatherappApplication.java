@@ -28,7 +28,11 @@ public class WeatherappApplication {
 
 	@Bean
 	public CloseableHttpClient httpClient(PoolingHttpClientConnectionManager manager, RequestConfig config) {
-		return HttpClientBuilder.create().setConnectionManager(manager).setDefaultRequestConfig(config).build();
+		return HttpClientBuilder
+			.create()
+			.setConnectionManager(manager)
+			.setDefaultRequestConfig(config)
+			.build();
 	}
 
 	@Bean

@@ -75,5 +75,14 @@
       "DockerContextDirectory": "java/weatherapp-springboot/",
       "DockerFile": "java/weatherapp-springboot/Dockerfile"
     }
+  },
+  "WeatherApp-SpringBootWebFlux": {
+    "Path": "/",
+    "ReadyStateText": "Started WeatherappApplication",
+    "Source": {
+      "DockerImageName": "weatherapp-springbootwebflux",
+      "DockerContextDirectory": "java/weatherapp-springbootwebflux/",
+      "DockerFile": "java/weatherapp-springbootwebflux/Dockerfile"
+    }
   }
 }

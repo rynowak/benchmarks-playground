@@ -97,7 +97,17 @@
         "DockerImageName": "weatherapp-springboot",
         "DockerContextDirectory": "java/weatherapp-springboot/",
         "DockerFile": "java/weatherapp-springboot/Dockerfile"
-      }
+      },
+      "WeatherApp-SpringBootWebFlux": {
+        "ReadyStateText": "Started WeatherappApplication",
+        "Scenario": "WeatherApp-SpringBootWebFlux",
+        "Source": {
+          "Repository": "https://github.com/rynowak/benchmarks-playground.git",
+          "BranchOrCommit": "master",
+          "DockerImageName": "weatherapp-springbootwebflux",
+          "DockerContextDirectory": "java/weatherapp-springbootwebflux/",
+          "DockerFile": "java/weatherapp-springbootwebflux/Dockerfile"
+        }
     },
     "pipelineclient": {
       "source": {
