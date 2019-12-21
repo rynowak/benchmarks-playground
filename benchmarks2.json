@@ -108,6 +108,7 @@
           "DockerContextDirectory": "java/weatherapp-springbootwebflux/",
           "DockerFile": "java/weatherapp-springbootwebflux/Dockerfile"
         }
+      }
     },
     "pipelineclient": {
       "source": {
