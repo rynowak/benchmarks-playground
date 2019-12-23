@@ -27,6 +27,25 @@
       "DockerFile": "dotnet/weatherapp-controllers/Dockerfile"
     }
   },
+  "WeatherApp-Grpc": {
+    "ReadyStateText": "Application started.",
+    "Source": {
+      "DockerImageName": "weatherapp-grpc",
+      "DockerContextDirectory": "dotnet/weatherapp-grpc/",
+      "DockerFile": "dotnet/weatherapp-grpc/Dockerfile"
+    },
+    "Client": "h2load",
+    "Path": "/weather.WeatherService/GetWeather",
+    "Headers": {
+      "content-type": "application/grpc",
+      "TE": "trailers"
+    },
+    "ClientProperties": {
+      "protocol": "h2c",
+      "RequestBody": "AAAAAAA="
+    },
+    "PresetHeaders": "None"
+  },
   "WeatherApp-Go": {
     "ReadyStateText": "app listening on port 5000!",
     "Source": {
