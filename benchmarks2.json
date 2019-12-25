@@ -181,6 +181,29 @@
         "threads": 32
       },
       "arguments": "-c {{connections}} {{serverUri}}{{path}} -d {{duration}}s -t {{threads}} {{header-sets[preset-headers]}}"
+    },
+    "gentle_warmup": {
+      "source": {
+        "repository": "https://github.com/aspnet/benchmarks.git",
+        "branchOrCommit": "master",
+        "project": "src/WrkClient/WrkClient.csproj"
+      },
+      "options": {
+        "displayOutput": true
+      },
+      "readyStateText": "Running ",
+      "sdkVersion": "3.0.100",
+      "aspnetcoreversion": "3.0",
+      "runtimeversion": "3.0",
+      "noArguments": true,
+      "waitForExit": true,
+      "scenario": "Gentle_Warmup",
+      "variables": {
+        "warmup_connections": 1,
+        "warmup_duration": "30",
+        "warmup_threads": 1
+      },
+      "arguments": "-c {{warmup_connections}} {{serverUri}}{{path}} -d {{warmup_duration}}s -t {{warmup_threads}} {{header-sets[preset-headers]}}"
     }
   }
 }
