@@ -8,9 +8,9 @@ namespace weatherapp_grpc
 {
     public class WeatherServiceImpl : WeatherService.WeatherServiceBase
     {
-        private readonly WeatherService.WeatherServiceClient _client;
+        private readonly ForecastService.ForecastServiceClient _client;
 
-        public WeatherServiceImpl(Weather.WeatherService.WeatherServiceClient client)
+        public WeatherServiceImpl(Weather.ForecastService.ForecastServiceClient client)
         {
             _client = client;
         }
@@ -21,17 +21,9 @@ namespace weatherapp_grpc
 
             return new WeatherResponse
             {
-                Forecast = response.Forecast,
+                Forecast = response.Weather,
                 Location = "Seattle"
             };
-        }
-
-        public override Task<ForecastResponse> GetForecast(Empty request, ServerCallContext context)
-        {
-            return Task.FromResult(new ForecastResponse
-            {
-                Forecast = "Cloudy"
-            });
         }
     }
 }

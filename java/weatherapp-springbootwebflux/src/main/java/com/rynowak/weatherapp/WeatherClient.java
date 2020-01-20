@@ -9,11 +9,11 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class WeatherClient {
-    private WebClient client = WebClient.create("http://localhost:5000");
+    private WebClient client = WebClient.create("http://localhost:5002");
 
-    private Mono<ClientResponse> result = client.get().uri("/forecast").accept(MediaType.TEXT_PLAIN).exchange();
+    private Mono<ClientResponse> result = client.get().uri("/forecast").accept(MediaType.APPLICATION_JSON).exchange();
 
-    public Mono<String> getForecast() {
-        return result.flatMap(res -> res.bodyToMono(String.class));
+    public Mono<WeatherForecast> getForecast() {
+        return result.flatMap(res -> res.bodyToMono(WeatherForecast.class));
     }
 }

@@ -17,13 +17,8 @@ public class WeatherController {
     }
 
     @RequestMapping("/")
-    public WeatherForecast weather() {
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:5000/forecast", String.class);
-        return new WeatherForecast("Seattle", response.getBody());
-    }
-
-    @RequestMapping(path = "/forecast", produces = "text/plain")
-    public String forecast() {
-        return "Cloudy";
+    public WeatherReport weather() {
+        ResponseEntity<WeatherForecast> response = restTemplate.getForEntity("http://localhost:5001/forecast", WeatherForecast.class);
+        return new WeatherReport("Seattle", response.getBody().getWeather());
     }
 }

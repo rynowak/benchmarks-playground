@@ -1,10 +1,16 @@
 # What is this
 
-Some basic benchmarks across different cloud-native stacks for testing performance under resource limits. I'm specifically investigating how different tech stacks behave when using CPU or memory limits in k8s (`--cpus` or `-m` in Docker).
+Some basic benchmarks across different cloud-native stacks for testing performance under resource limits. I'm specifically investigating how different tech stacks behave when using CPU or memory limits in k8s (`--cpus` or `-m` in Docker) to configure applications for **density**.
 
 There are other good benchmarks like TechEmpower that compare web stacks with the goal of maximum throughput with access to big hardware. I wanted to do my own benchmarking exercise that would give a different perspective focused on density and efficiency.
 
 For this purpose of this testing, I'm making the assumption that you're invested in an orchestrator like kubernetes, and you want to partion you apps in such a way that kubernetes can dynamically scale them for you. Deciding the resource requirements of a single 'unit' of the application is a necessary step.
+
+I'm also making the assumption that you want to oversubscribe your CPU resources. When applications need to handle a small and predictable amount of traffic, or go through quiet periods, there's an advantage to be had by packing many applications onto your hardware. CPU time is flexible and applications can contine to function, albeit slowly, even when there's less available than you want. Memory is *inflexible* - once memory is reserved for a container it will not be available for other applications. The Kubernetes docs refer to CPU as a *compressable* resource, and memory as a *non-compressable* resource.
+
+By this measure, it's valuable to oversubscribe CPU time - other applications can use and benefit from any surplus. It's valuable to configure your applications to be frugal with memory - because it can't be shared and redistributed in the same way.
+
+---
 
 From the point of view of an ASP.NET Core framework/platform developer, I'm tying to do an exercise that will help understand:
 
@@ -14,33 +20,39 @@ From the point of view of an ASP.NET Core framework/platform developer, I'm tyin
 
 ## What does the app do
 
-The app is a tiny REST API. It serves a really small JSOM payload. It also makes an outgoing HTTP call to itself.
+The app is a tiny REST API. It serves a really small JSOM payload. It also makes an outgoing HTTP call to another application, and does some JSON deserialization.
 
 Why do all of this? This set of things is designed to include features that are critical to the microservices programming style (for REST/JSON).
 
-- Incoming HTTP
-- JSON Serialization
-- Outgoing HTTP
-- Threading model (async in .NET)
+The app that we're testing (weatherapp) does:
 
-Why not build a more realistic app, with real data access? Well, increasing the size and scope of what's being tested decreases the chance that we get something wrong.
+- Gets and HTTP request
+- Does an outgoing HTTP call to another app (forecast app)
+- Deserializing the JSON that comes back
+- Serializes JSON to its response
+
+Our *other app* (forecastapp) in this cast serves a JSON payload with a small delay. The reason for the delay is that we want to see some queueing and expose the effects of the underlying platform's threading model. The vast majority of microservices workflows will involve talking to some data data source. Forecast app is set up so that it won't be the bottleneck in our testing. It's written at a pretty low level and is allocated *much* more resources in the testing environment.
+
+Why not build a more realistic app, with real database? Well, increasing the size and scope of what's being tested decreases the chance that we get something wrong. The quality of database drivers varies a lot, and different programming communities prefer different databases. It would be much most significant of a task to make sure that we're comparing the right things.
 
 ## How I wrote these
 
-I'm trying to understand where you land by writing applications using various **mainstream** tech stacks and using **mainstream** practices. If your team had to write 30 services in stack XYZ how would you write them?
+I'm trying to understand where you land by writing applications using various **mainstream** tech stacks and using **mainstream** practices. If your team had to write 30 services in stack XYZ how would you write them? I specifically want to avoid doing anything esoteric in the code, or doing lots of scenario-specific tuning in the app/config. I want these to honestly reflect the common practices.
 
-I specifically want to avoid doing anything esoteric in the code, or doing lots of scenario-specific tuning in the app/config. I want these to honestly reflect the common practices.
-
-[Techempower](https://www.techempower.com/benchmarks/) exists to serve as a benchmarking competion, the code samples here are intended to track more realistic code samples.
+[Techempower](https://www.techempower.com/benchmarks/) exists to serve as a benchmarking competion, the code samples here are intended to track realistic and straightforward code samples.
 
 ## What scenarios are tested
 
-The apps here are tested across two primary use cases:
+Forwcast app is tested with a spectrum of CPU x memory combinations, and a spectrun of fixed-requests-per-second load values, measuring:
 
-- Given a combination of CPU and memory - what's the maximum possible throughput in requests-per-second?
-- Given a combination of CPU and memory - what does CPU usage, memory consumption, and latency look like with different fixed amounts of requests-per-second?
+- CPU usage
+- memory consumption
+- latency
+- swap
 
-Each of these things tells us something separate. The max throughput test tells us what's possible in that configuration, and gives us some ability to extrapolate outside of the exact scenario tested. The fixed throughput test tells us about how to choose CPU and memory values based on on an application's needs.
+If you were doing this kind of analysis in production, you might pick an expected value of RPS, and then choose a CPU x memory combination that gives latency within SLA.
+
+We're tracking swap in this these cases to find combinations of CPU x memory x RPS that require usages of swap space. This is a red flag for performance, because swap does disk i/o, and that's disk i/o that could be avoided by giving the application more memory. Relying on swapping to make the application function is not going to achieve our goal of achieving density. In our test environment we're only running two applications - in a production configuration there will be many other applications contending for use of the disk.
 
 ---
 
@@ -48,6 +60,7 @@ As for the actual combinations of CPU and memory, these are informed by:
 
 - Observation of requests/limits used by kubernetes infrastructure
 - SKUs of Azure VM available and their ratios
+- Reasoning about our goal of density
 
 ---
 
@@ -60,18 +73,6 @@ We can draw a few conclusions from this:
 - This is a case where you generally want to optimize for efficiency over raw throughput.
 
 note: For the purpose of eliminating some subtlety, I'm not making a distinction in testing between *requests* and *limits*. For a piece of infrastructure you want to make your requests as low as possible - instead of trying to design experiments around requests, we're making the assumption that you might need to run with *only* the requested amount available, and limits are an effective way to test that.
-
-**Combinations to test (CPU x Memory):**
-
-- `0.25 x 30m`
-- `0.25 x 50m`
-- `0.25 x 100m`
-- `0.5 x 50m`
-- `0.5 x 100m`
-- `0.5 x 200m`
-- `1.0 x 100m`
-- `1.0 x 200m`
-- `1.0 x 500m`
 
 ---
 
@@ -119,32 +120,23 @@ Azure's docs describe the [Fsv2-series](https://docs.microsoft.com/en-us/azure/v
 
 ### Conclusions
 
-Looking across all of the VM types considered, it seems obvious we should test a CPU / Memory ratio of `1 CPU / 1.0 GiB`, `1 CPU / 2.0 GiB`, `1 CPU / 3.0 GiB`, and `1 CPU / 4.0 GiB`. I'm including the `1 / 1.0 GiB` because not every app is the same, if your *budget* is `1 CPU / 2 GiB` (F-series), then some apps will be over budget and some will be under.
+Looking across all of the VM types considered, the CPU / memory ratios range from `1 CPU / 2 GiB` to `1 CPU / 4GiB`. Given that we're after density, we want to consider ratios with a lower amount of memory than what's given by a typical VM. We're testing oversubscription of CPUs relative to memory.
 
-Since we're targeting density scenarios where kubernetes scaling is used, we should cover CPU limit values of `0.5`, `1.0`, `2.0`, `4.0`. I'm going to consider anything larger than that to be *too big* for this test - via my own arbitrary criteria.
+Additionally, in these configurations AKS will resevere about 35% for a very small VM, and that percentage will decrease as the size of the VM's memory pool increases. So while we also want to oversubscribe based on these ratios we should also be aware that the OS and k8s will take some up as well.
 
-Looking at the special properties of the A-series or B-series can help pull out some qualitative conclusions after collecting data.
-
-note: As a personal note, the CPU / Memory ratios are a bit expectation-shattering for me. The standard CPU sizes are more-generous with memory compared to what I expected. It's possible that in practice we're not going to see a difference when testing across all of these memory ratios.
+I'm choosing a range of CPU values from `0.25`, `0.5`, `1.0` since this focuses on oversubscription. I'm going choose memory values that roughly correspond to the ratios `1 CPU / .15 GiB`, `1 CPU / .25 GiB`, `1 CPU / .5 GiB`.
 
 **Combinations to test (CPU x Memory):**
 
-- `0.5 x 0.5 GiB`
-- `0.5 x 1 GiB`
-- `0.5 x 1.5 GiB`
-- `0.5 x 2 GiB`
-- `1.0 x 1 GiB`
-- `1.0 x 2 GiB`
-- `1.0 x 3 GiB`
-- `1.0 x 4 GiB`
-- `2.0 x 2 GiB`
-- `2.0 x 4 GiB`
-- `2.0 x 6 GiB`
-- `2.0 x 8 GiB`
-- `4.0 x 4 GiB`
-- `4.0 x 8 GiB`
-- `4.0 x 12 GiB`
-- `4.0 x 16 GiB`
+- `0.25 x 30m`
+- `0.25 x 50m`
+- `0.25 x 75m`
+- `0.5 x 75m`
+- `0.5 x 100m`
+- `0.5 x 200m`
+- `1.0 x 150m`
+- `1.0 x 250m`
+- `1.0 x 500m`
 
 ## How is this tested
 
@@ -156,35 +148,28 @@ Our benchmarking system can run apps in a variety of .NET-centric ways as well a
 
 Our benchmarking system has wired up a bunch of well-known load-generation clients (`wrk`, `wrk2`, Bombardier), as well as some of our own invention.
 
-### Procedure: Testing max requests-per-second
+### Procedure: Testing
 
-We can use the `wrk` client to test more than enough load to overwhelm any of these applications. However, it's not our goal to overwhelm the application, but to produce the best result. In order to do that we need to tune the number of requests generated by `wrk` by determining the optimial number of connections to use.
-
-So, for each data point we want to produce (app x CPU x memory) we need to do test runs with increasing numbers of connections until we find the sweet spot. There's no trick to this, it just involves running a lot of iterations.
+We can use the `wrk2` client because it provides both the ability to test with fixed requests-per-second, and has a very detailed report of latencies. We use this client to test workloads that generate load in the millions of requests in our lab setup, it will easily reach the levels of load we require without becoming a bottleneck.
 
 A typical trial for testing connections looks like:
 
 - Deploy app
-- Run a 30s warmup with a single connection
-- Run a 15s *test run* with the specified number of connections
-
-The `wrk` client can generate thousands of requests per second on a single connection. We're using a 30 second warmup to be conservative, by the time the *test run* starts, a .NET or Java app will have already served thousands of requests even if it's only handling a hundred per second.
-
-Once we have the optimal number of connections it's time to do a real run.
-
-- Deploy app
-- Run a 10s warmup
+- Run a 30s warmup
 - Run a 15s *test run*
 
-As a sanity check, we're looking for all of these workloads to use all of the CPU time available (limited by CPU limit) when testing for maximum throughput.
+We're using a 30 second warmup to be conservative, by the time the *test run* starts, a .NET or Java app will have already served thousands of requests even if it's only handling a hundred per second.
 
-### Procedure: Testing fixed requests-per-second
+We're testing the following values of requests-per-second across of all of these combinations. We don't expect every app to successfully handle all of these load values in every combination.
+
+- 1 RPS
+- 100 RPS
+- 500 RPS
+- 1000 RPS
+- 10000 RPS
+- 25000 RPS
 
 ## FAQ
-
-**Q: What hardware are you using to test?**
-
-I'm
 
 **Q: Using --cpus=1.0 is going to have bad performance in my stack of choice because it will prevent the GC from running in parallel with user code.**
 

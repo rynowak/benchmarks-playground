@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,17 +16,12 @@ namespace weatherapp_controllers
         }
 
         [HttpGet("/")]
-        public async Task<ActionResult<WeatherForecast>> GetWeather()
+        public async Task<ActionResult<WeatherReport>> GetWeather()
         {
             var client = _factory.CreateClient();
-            var forecast = await client.GetStringAsync("http://localhost:5000/forecast");
-            return new WeatherForecast() { Location = "Seattle", Forecast = forecast, };
-        }
-
-        [HttpGet("/forecast")]
-        public ActionResult GetForecast()
-        {
-            return Content("Cloudy", "text/plain");
+            var bytes = await client.GetByteArrayAsync("http://localhost:5002/forecast");
+            var forecast = JsonSerializer.Deserialize<WeatherForecast>(bytes);
+            return new WeatherReport() { Location = "Seattle", Forecast = forecast.Weather, };
         }
     }
 }

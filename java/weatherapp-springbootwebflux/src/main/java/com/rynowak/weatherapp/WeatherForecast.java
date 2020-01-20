@@ -1,19 +1,20 @@
 package com.rynowak.weatherapp;
 
 public class WeatherForecast {
-    private String location;
-    private String forecast;
+    private String weather;
 
-    public WeatherForecast(String location, String forecast) {
-        this.location = location;
-        this.forecast = forecast;
+    public WeatherForecast(){
     }
 
-    public String getLocation() {
-        return location;
+    public WeatherForecast(String weather) {
+        this.weather = weather;
     }
 
-    public String getForecast() {
-        return forecast;
+    public String getWeather() {
+        return weather;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 }

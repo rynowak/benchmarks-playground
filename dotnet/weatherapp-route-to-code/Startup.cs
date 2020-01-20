@@ -33,21 +33,16 @@ namespace weatherapp_route_to_code
 
                 endpoints.MapGet("/", async context =>
                 {
-                    var forecast = await client.GetStringAsync("http://localhost:5000/forecast");
-                    var report = new WeatherForecast()
+                    var bytes = await client.GetByteArrayAsync("http://localhost:5000/forecast");
+                    var forecast = JsonSerializer.Deserialize<WeatherForecast>(bytes);
+                    var report = new WeatherReport()
                     {
                         Location = "Seattle",
-                        Forecast = forecast,
+                        Forecast = forecast.Weather,
                     };
 
                     context.Response.ContentType = "application/json";
                     await JsonSerializer.SerializeAsync(context.Response.Body, report);
-                });
-
-                endpoints.MapGet("/forecast", context =>
-                {
-                    context.Response.ContentType = "text/plain";
-                    return context.Response.WriteAsync("Cloudy");
                 });
             });
         }

@@ -19,12 +19,7 @@ import "google/protobuf/empty.proto";
 package weather;
 
 service WeatherService {
-  rpc GetForecast (google.protobuf.Empty) returns (ForecastResponse);
   rpc GetWeather (google.protobuf.Empty) returns (WeatherResponse);
-}
-
-message ForecastResponse {
-  string forecast = 1;
 }
 
 message WeatherResponse {

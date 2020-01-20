@@ -15,9 +15,6 @@ public class WeatherRouter {
     public RouterFunction<ServerResponse> route(WeatherHandler handler) {
         return RouterFunctions
                 .route(RequestPredicates.GET("/").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
-                        handler::weather)
-                .and(RouterFunctions.route(
-                        RequestPredicates.GET("/forecast").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
-                        handler::forecast));
+                        handler::weather);
     }
 }

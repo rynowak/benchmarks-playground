@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\weather.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\forecast.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\weather.proto" GrpcServices="Server" />
 
     <PackageReference Include="Grpc.AspNetCore" Version="2.25.0" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.25.0" />
