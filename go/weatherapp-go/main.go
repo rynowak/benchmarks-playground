@@ -47,7 +47,7 @@ func forecast(w http.ResponseWriter, r *http.Request) {
 func main() {
 	uri = os.Getenv("FORECAST_SERVICE_URI")
 	if uri == "" {
-		uri = "http://localhost:5002"
+		uri = "http://localhost:8080"
 	}
 	uri = strings.TrimSuffix(uri, "/")
 	uri += "/forecast"

@@ -18,7 +18,7 @@ public class WeatherController {
         String uri = System.getenv("FORECAST_SERVICE_URI");
         if (uri == null)
         {
-            uri = "http://localhost:5002";
+            uri = "http://localhost:8080";
         }
         if (uri.endsWith("/"))
         {

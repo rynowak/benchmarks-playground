@@ -3,7 +3,7 @@ const request = require('request')
 const app = express()
 const port = 5000
 
-var uri = process.env.FORECAST_SERVICE_URI || "http://localhost:5002";
+var uri = process.env.FORECAST_SERVICE_URI || "http://localhost:8080";
 if (uri.endsWith("/"))
 {
     uri = uri.substr(0, uri.length - 1);

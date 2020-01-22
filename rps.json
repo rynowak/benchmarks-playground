@@ -1,0 +1,18 @@
+[
+    {
+        "rps": 1,
+        "connections": 1
+    },
+    {
+        "rps": 100,
+        "connections": 4
+    },
+    {
+        "rps": 1000,
+        "connections": 40
+    },
+    {
+        "rps": 10000,
+        "connections": 128
+    }
+]

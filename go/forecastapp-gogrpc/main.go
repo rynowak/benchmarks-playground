@@ -19,12 +19,12 @@ func (s *weatherServer) GetForecast(ctx context.Context, request *empty.Empty) (
 }
 
 func main() {
-	lis, err := net.Listen("tcp", "localhost:5002")
+	lis, err := net.Listen("tcp", "localhost:8080")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	fmt.Println("app listening on port 5002!")
+	fmt.Println("app listening on port 8080!")
 
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)

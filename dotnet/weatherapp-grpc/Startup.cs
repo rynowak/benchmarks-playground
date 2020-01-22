@@ -23,7 +23,7 @@ namespace weatherapp_grpc
             services.AddGrpc();
             services.AddGrpcClient<Weather.ForecastService.ForecastServiceClient>(o => 
             {
-                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:5002/");
+                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:8080/");
                 o.Address = uri;
             });
         }

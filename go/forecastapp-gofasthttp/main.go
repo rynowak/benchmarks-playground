@@ -32,6 +32,6 @@ func main() {
 		Handler:            r.Handler,
 		WriteTimeout:       5 * time.Second,
 	}
-	fmt.Println("app listening on port 5002!")
-	panic(s.ListenAndServe(":5002"))
+	fmt.Println("app listening on port 8080!")
+	panic(s.ListenAndServe(":8080"))
 }

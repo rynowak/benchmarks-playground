@@ -6,7 +6,6 @@ variables:
     connectionclose: "--header Connection:close"
   presetHeaders: none
   path: "/"
-  rps: ""
 jobs:
   weatherapp-route-to-code:
     source:
@@ -16,22 +15,21 @@ jobs:
       dockerContextDirectory: "dotnet/weatherapp-route-to-code/"
       dockerFile: "dotnet/weatherapp-route-to-code/Dockerfile"
     readyStateText: Application started.
-    variables:
   weatherapp-controllers:
-    source:
-      repository: https://github.com/rynowak/benchmarks-playground.git
-      branchOrCommit: master
-      dockerImageName: weatherapp-grpc
-      dockerContextDirectory: dotnet/weatherapp-grpc/
-      dockerFile: dotnet/weatherapp-grpc/Dockerfile
-    readyStateText: Application started.
-  weatherapp-grpc:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git
       branchOrCommit: master
       dockerImageName: weatherapp-controllers
       dockerContextDirectory: dotnet/weatherapp-controllers/
       dockerFile: dotnet/weatherapp-controllers/Dockerfile
+    readyStateText: Application started.
+  weatherapp-grpc:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-grpc
+      dockerContextDirectory: dotnet/weatherapp-grpc/
+      dockerFile: dotnet/weatherapp-grpc/Dockerfile
     readyStateText: Application started.
   weatherapp-springboot:
     source:
@@ -103,23 +101,21 @@ jobs:
       branchOrCommit: master
       dockerImageName: forecastapp-gofasthttp
       dockerContextDirectory: go/forecastapp-gofasthttp/
-      dockerFile: java/forecastapp-gofasthttp/Dockerfile
-    readyStateText: app listening on port 5002!
+      dockerFile: go/forecastapp-gofasthttp/Dockerfile
+    readyStateText: app listening on port 8080!
   forecastapp-gogrpc:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git
       branchOrCommit: master
       dockerImageName: forecastapp-gogrpc
       dockerContextDirectory: go/forecastapp-gogrpc/
-      dockerFile: java/forecastapp-gogrpc/Dockerfile
-    readyStateText: app listening on port 5002!
+      dockerFile: go/forecastapp-gogrpc/Dockerfile
+    readyStateText: app listening on port 8080!
   bombardier:
     source:
       repository: https://github.com/aspnet/benchmarks.git
       branchOrCommit: master
       project: src/BombardierClient/BombardierClient.csproj
-#    options:
-#      displayOutput: true
     readyStateText: Bombardier Client
     sdkVersion: 3.0.100
     aspNetCoreVersion: '3.0'
@@ -127,8 +123,9 @@ jobs:
     waitForExit: true
     scenario: Bombardier
     variables:
-      connections: 256
+      connections: 32
       duration: 5
+      rps: ''
     arguments: "-c {{connections}} {{serverUri}}{{path}} -d {{duration}}s {% if rps != '' %} --rate={{rps}} {% endif %} {% if headers[presetHeaders] != '' %} -l {{headers[presetHeaders]}} {% endif %}"
 scenarios:
   weatherapp-route-to-code:
@@ -136,88 +133,160 @@ scenarios:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-route-to-code
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-controllers:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-controllers
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-go:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-go
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-gofasthttp:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-gofasthttp
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-springboot:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-springboot
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-springbootwebflux:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-springbootwebflux
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-quarkus:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-quarkus
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-express:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-express
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15
   weatherapp-flask:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-flask
+    warmup:
+      job: bombardier
+      variables:
+        path: /
+        duration: 10
+        rps: 50
+      options:
+        discardResults: true
     load:
       job: bombardier
       variables:
         path: /
-        duration: 5
+        duration: 15

@@ -18,7 +18,7 @@ namespace weatherapp_route_to_code
 {
     public class Startup
     {
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -29,7 +29,9 @@ namespace weatherapp_route_to_code
 
             app.UseEndpoints(endpoints =>
             {
-                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:5002/");
+                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:8080/");
+                logger.LogInformation("Using {URI} for forecast service", uri);
+
                 var client = new HttpClient()
                 {
                     BaseAddress = uri,

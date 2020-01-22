@@ -22,7 +22,7 @@ namespace weatherapp_controllers
             services.AddControllers();
             services.AddHttpClient(Options.DefaultName, c => 
             {
-                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:5002/");
+                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:8080/");
                 c.BaseAddress = uri;
             });
         }

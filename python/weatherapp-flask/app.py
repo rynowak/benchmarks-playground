@@ -4,7 +4,7 @@ import requests
 
 app = Flask(__name__)
 
-uri = os.environ.get("FORECAST_SERVICE_URI", "http://localhost:5002")
+uri = os.environ.get("FORECAST_SERVICE_URI", "http://localhost:8080")
 uri = uri.rstrip("/")
 uri = uri + "/forecast"
 

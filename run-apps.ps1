@@ -37,27 +37,29 @@ if (-not (Test-Path "$PSScriptRoot\results\"))
     mkdir "$PSScriptRoot\results" | Out-Null
 }
 
-$scenarios = Invoke-Expression -Command (Join-Path $PSScriptRoot foreach-scenario.ps1)
+$scenarios = Invoke-Expression -Command (Join-Path $PSScriptRoot foreach-scenariocombinationrps.ps1)
 
 $i = 0;
 $count = $scenarios.Count
 
-foreach ($scenario in $scenarios) {
-    $rps = "25000"
-    $cpu = "1.0"
-    $memory = "500M"
+for (; $i -lt $scenarios.Count; $i++)
+{
+    $entry = $scenarios[$i]
+    $scenario = $entry.scenario
+    $rps = $entry.rps
+    $connections = $entry.connections
+    $cpu = $entry.cpu
+    $memory = $entry.memory
     $scaled_cpus = [System.Math]::Max([double]$scenario.cpu, 1.0)
 
-    $i++
-    Write-Host "Step $i of $count - $scenario"
-
+    Write-Host "Step $i of $count - $scenario $rps $cpu $memory"
     dotnet run -p c:\git\aspnet\benchmarks\src\BenchmarksDriver2 -- `
         --config "$PSScriptRoot\benchmarks.yaml" `
         --scenario $scenario `
         --warmup.endpoints $load_url `
         --load.endpoints $load_url `
+        --load.variables.connections $connections `
         --load.variables.rps $rps `
-        --load.variables.connections 256 `
         --forecast.endpoints $forecast_url `
         --forecast.options.displayBuild true `
         --forecast.options.displayOutput true `
@@ -69,9 +71,10 @@ foreach ($scenario in $scenarios) {
         --weather.options.displayBuild true `
         --weather.options.displayOutput true `
         --variable serverUri=$weather_server_url `
-        --output "$PSScriptRoot\results\$scenario-smoketest.json" `
+        --output "$PSScriptRoot\results\$scenario-$rps-$cpu-$memory.json" `
         --property "cpu=$cpu" `
         --property "memory=$memory" `
         --property "scenario=$scenario" `
-        --property "rps=$rps"
+        --property "rps=$rps" `
+        --property "iteration=$i"
 }

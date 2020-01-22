@@ -7,5 +7,5 @@ RUN go build -o forecast -ldflags '-s'
 FROM alpine 
 WORKDIR /app
 COPY --from=build-env /src/forecast /app/
-EXPOSE 5002
+EXPOSE 8080
 ENTRYPOINT ./forecast

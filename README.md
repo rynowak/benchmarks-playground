@@ -124,19 +124,19 @@ Looking across all of the VM types considered, the CPU / memory ratios range fro
 
 Additionally, in these configurations AKS will resevere about 35% for a very small VM, and that percentage will decrease as the size of the VM's memory pool increases. So while we also want to oversubscribe based on these ratios we should also be aware that the OS and k8s will take some up as well.
 
-I'm choosing a range of CPU values from `0.25`, `0.5`, `1.0` since this focuses on oversubscription. I'm going choose memory values that roughly correspond to the ratios `1 CPU / .15 GiB`, `1 CPU / .25 GiB`, `1 CPU / .5 GiB`.
+I'm choosing a range of CPU values from `0.25`, `0.5`, `1.0` since this focuses on oversubscription. I'm going choose memory values that roughly correspond to the ratios `1 CPU / .125 GiB`, `1 CPU / .25 GiB`, `1 CPU / .375 GiB`.
 
 **Combinations to test (CPU x Memory):**
 
 - `0.25 x 30m`
 - `0.25 x 50m`
-- `0.25 x 75m`
-- `0.5 x 75m`
+- `0.25 x 90m`
+- `0.5 x 60m`
 - `0.5 x 100m`
-- `0.5 x 200m`
-- `1.0 x 150m`
-- `1.0 x 250m`
-- `1.0 x 500m`
+- `0.5 x 180m`
+- `1.0 x 120m`
+- `1.0 x 200m`
+- `1.0 x 360`
 
 ## How is this tested
 

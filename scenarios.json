@@ -1,7 +1,6 @@
 [
     "weatherapp-route-to-code",
     "weatherapp-controllers",
-    "weatherapp-grpc",
     "weatherapp-go",
     "weatherapp-gofasthttp",
     "weatherapp-springboot",
