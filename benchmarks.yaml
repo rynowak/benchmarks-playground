@@ -1,0 +1,223 @@
+variables:
+  headers:
+    none: ''
+    json: "--header Accept:application/json,text/html;q=0.9,application/xhtml+xml;q=0.9,application/xml;q=0.8,*/*;q=0.7 --header Connection:keep-alive"
+    plaintext: "--header Accept:text/plain,text/html;q=0.9,application/xhtml+xml;q=0.9,application/xml;q=0.8,*/*;q=0.7 --header Connection:keep-alive"
+    connectionclose: "--header Connection:close"
+  presetHeaders: none
+  path: "/"
+  rps: ""
+jobs:
+  weatherapp-route-to-code:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: "weatherapp-route-to-code"
+      dockerContextDirectory: "dotnet/weatherapp-route-to-code/"
+      dockerFile: "dotnet/weatherapp-route-to-code/Dockerfile"
+    readyStateText: Application started.
+    variables:
+  weatherapp-controllers:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-grpc
+      dockerContextDirectory: dotnet/weatherapp-grpc/
+      dockerFile: dotnet/weatherapp-grpc/Dockerfile
+    readyStateText: Application started.
+  weatherapp-grpc:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-controllers
+      dockerContextDirectory: dotnet/weatherapp-controllers/
+      dockerFile: dotnet/weatherapp-controllers/Dockerfile
+    readyStateText: Application started.
+  weatherapp-springboot:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-springboot
+      dockerContextDirectory: java/weatherapp-springboot/
+      dockerFile: java/weatherapp-springboot/Dockerfile
+    readyStateText: Started WeatherappApplication
+  weatherapp-springbootwebflux:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-springbootwebflux
+      dockerContextDirectory: java/weatherapp-springbootwebflux/
+      dockerFile: java/weatherapp-springbootwebflux/Dockerfile
+    readyStateText: Started WeatherappApplication
+  weatherapp-quarkus:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-quarkus
+      dockerContextDirectory: java/weatherapp-quarkus/
+      dockerFile: java/weatherapp-quarkus/Dockerfile
+    readyStateText: "Listening on: http://0.0.0.0"
+  weatherapp-go:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-go
+      dockerContextDirectory: go/weatherapp-go/
+      dockerFile: go/weatherapp-go/Dockerfile
+    readyStateText: app listening on port 5000!
+  weatherapp-gofasthttp:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-gofasthttp
+      dockerContextDirectory: go/weatherapp-gofasthttp/
+      dockerFile: go/weatherapp-gofasthttp/Dockerfile
+    readyStateText: app listening on port 5000!
+  weatherapp-express:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-express
+      dockerContextDirectory: node/weatherapp-express/
+      dockerFile: node/weatherapp-express/Dockerfile
+    readyStateText: app listening on port 5000!
+  weatherapp-expressclustered:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-expressclustered
+      dockerContextDirectory: node/weatherapp-expressclustered/
+      dockerFile: node/weatherapp-expressclustered/Dockerfile
+    readyStateText: app listening on port 5000!
+  weatherapp-flask:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-flask
+      dockerContextDirectory: python/weatherapp-flask/
+      dockerFile: python/weatherapp-flask/Dockerfile
+    readyStateText: 'Listening at:'
+  forecastapp-gofasthttp:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: forecastapp-gofasthttp
+      dockerContextDirectory: go/forecastapp-gofasthttp/
+      dockerFile: java/forecastapp-gofasthttp/Dockerfile
+    readyStateText: app listening on port 5002!
+  forecastapp-gogrpc:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: forecastapp-gogrpc
+      dockerContextDirectory: go/forecastapp-gogrpc/
+      dockerFile: java/forecastapp-gogrpc/Dockerfile
+    readyStateText: app listening on port 5002!
+  bombardier:
+    source:
+      repository: https://github.com/aspnet/benchmarks.git
+      branchOrCommit: master
+      project: src/BombardierClient/BombardierClient.csproj
+#    options:
+#      displayOutput: true
+    readyStateText: Bombardier Client
+    sdkVersion: 3.0.100
+    aspNetCoreVersion: '3.0'
+    runtimeVersion: '3.0'
+    waitForExit: true
+    scenario: Bombardier
+    variables:
+      connections: 256
+      duration: 5
+    arguments: "-c {{connections}} {{serverUri}}{{path}} -d {{duration}}s {% if rps != '' %} --rate={{rps}} {% endif %} {% if headers[presetHeaders] != '' %} -l {{headers[presetHeaders]}} {% endif %}"
+scenarios:
+  weatherapp-route-to-code:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-route-to-code
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-controllers:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-controllers
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-go:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-go
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-gofasthttp:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-gofasthttp
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-springboot:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-springboot
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-springbootwebflux:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-springbootwebflux
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-quarkus:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-quarkus
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-express:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-express
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
+  weatherapp-flask:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-flask
+    load:
+      job: bombardier
+      variables:
+        path: /
+        duration: 5
