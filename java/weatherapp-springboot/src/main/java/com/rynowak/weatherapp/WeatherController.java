@@ -10,15 +10,27 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherController {
 
     private RestTemplate restTemplate;
+    private String uri;
 
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
+        String uri = System.getenv("FORECAST_SERVICE_URI");
+        if (uri == null)
+        {
+            uri = "http://localhost:5002";
+        }
+        if (uri.endsWith("/"))
+        {
+            uri.substring(0, uri.length() - 1);
+        }
+
+        this.uri = uri + "/forecast";
     }
 
     @RequestMapping("/")
     public WeatherReport weather() {
-        ResponseEntity<WeatherForecast> response = restTemplate.getForEntity("http://localhost:5001/forecast", WeatherForecast.class);
+        ResponseEntity<WeatherForecast> response = restTemplate.getForEntity(uri, WeatherForecast.class);
         return new WeatherReport("Seattle", response.getBody().getWeather());
     }
 }

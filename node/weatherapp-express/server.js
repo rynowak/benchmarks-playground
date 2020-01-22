@@ -3,9 +3,17 @@ const request = require('request')
 const app = express()
 const port = 5000
 
+var uri = process.env.FORECAST_SERVICE_URI || "http://localhost:5002";
+if (uri.endsWith("/"))
+{
+    uri = uri.substr(0, uri.length - 1);
+}
+
+uri += "/forecast";
+
 var options = {
     method: 'GET',
-    uri: 'http://localhost:5002/forecast',
+    uri: uri,
     resolveWithFullResponse: true,
     json: true
 };

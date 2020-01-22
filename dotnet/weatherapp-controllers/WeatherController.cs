@@ -19,7 +19,7 @@ namespace weatherapp_controllers
         public async Task<ActionResult<WeatherReport>> GetWeather()
         {
             var client = _factory.CreateClient();
-            var bytes = await client.GetByteArrayAsync("http://localhost:5002/forecast");
+            var bytes = await client.GetByteArrayAsync("/forecast");
             var forecast = JsonSerializer.Deserialize<WeatherForecast>(bytes);
             return new WeatherReport() { Location = "Seattle", Forecast = forecast.Weather, };
         }

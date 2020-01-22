@@ -1,11 +1,16 @@
 from flask import Flask, jsonify, make_response
+import os
 import requests
 
 app = Flask(__name__)
 
+uri = os.environ.get("FORECAST_SERVICE_URI", "http://localhost:5002")
+uri = uri.rstrip("/")
+uri = uri + "/forecast"
+
 @app.route("/")
 def weather():
-    forecast = requests.get("http://localhost:5002/forecast").json()
+    forecast = requests.get(uri).json()
     return jsonify(location="Seattle", forecast=forecast["weather"])
 
 if __name__ == '__main__':

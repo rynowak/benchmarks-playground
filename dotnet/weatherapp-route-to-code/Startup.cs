@@ -29,11 +29,15 @@ namespace weatherapp_route_to_code
 
             app.UseEndpoints(endpoints =>
             {
-                var client = new HttpClient();
+                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:5002/");
+                var client = new HttpClient()
+                {
+                    BaseAddress = uri,
+                };
 
                 endpoints.MapGet("/", async context =>
                 {
-                    var bytes = await client.GetByteArrayAsync("http://localhost:5000/forecast");
+                    var bytes = await client.GetByteArrayAsync("/forecast");
                     var forecast = JsonSerializer.Deserialize<WeatherForecast>(bytes);
                     var report = new WeatherReport()
                     {

@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 )
 
 type weatherReport struct {
@@ -13,8 +15,10 @@ type weatherReport struct {
 	Weather  string `json:"weather"`
 }
 
+var uri string
+
 func weather(w http.ResponseWriter, r *http.Request) {
-	resp, err := http.Get("http://localhost:5000/forecast")
+	resp, err := http.Get(uri)
 	if err != nil {
 		log.Fatalln(err)
 		w.WriteHeader(500)
@@ -41,6 +45,13 @@ func forecast(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	uri = os.Getenv("FORECAST_SERVICE_URI")
+	if uri == "" {
+		uri = "http://localhost:5002"
+	}
+	uri = strings.TrimSuffix(uri, "/")
+	uri += "/forecast"
+
 	http.HandleFunc("/", weather)
 	http.HandleFunc("/forecast", forecast)
 	fmt.Println("app listening on port 5000!")

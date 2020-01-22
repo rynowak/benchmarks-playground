@@ -7,6 +7,8 @@ import (
 	"github.com/fasthttp/router"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/valyala/fasthttp"
+	"os"
+	"strings"
 )
 
 type weatherForecast struct {
@@ -19,10 +21,11 @@ type weatherReport struct {
 }
 
 var json = jsoniter.ConfigFastest
+var uri string
 
 func weather(ctx *fasthttp.RequestCtx) {
 
-	_, body, err := fasthttp.Get(nil, "http://localhost:5002/forecast")
+	_, body, err := fasthttp.Get(nil, uri)
 	if err != nil {
 		ctx.Error(fmt.Sprintf("%s", err), fasthttp.StatusInternalServerError)
 		return
@@ -36,6 +39,13 @@ func weather(ctx *fasthttp.RequestCtx) {
 }
 
 func main() {
+	uri = os.Getenv("FORECAST_SERVICE_URI")
+	if uri == "" {
+		uri = "http://localhost:5002"
+	}
+	uri = strings.TrimSuffix(uri, "/")
+	uri += "/forecast"
+	
 	r := router.New()
 	r.GET("/", weather)
 

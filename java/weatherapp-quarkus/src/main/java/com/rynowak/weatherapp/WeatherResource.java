@@ -13,7 +13,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @Path("/")
 public class WeatherResource {
-	
+
 	@Inject
     @RestClient
     ForecastService forecastService;

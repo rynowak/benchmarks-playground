@@ -21,7 +21,11 @@ namespace weatherapp_grpc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddGrpcClient<Weather.ForecastService.ForecastServiceClient>(o => o.Address = new Uri("http://localhost:5002"));
+            services.AddGrpcClient<Weather.ForecastService.ForecastServiceClient>(o => 
+            {
+                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:5002/");
+                o.Address = uri;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

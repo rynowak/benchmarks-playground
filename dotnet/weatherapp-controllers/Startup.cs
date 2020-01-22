@@ -20,7 +20,11 @@ namespace weatherapp_controllers
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddHttpClient(Options.DefaultName);
+            services.AddHttpClient(Options.DefaultName, c => 
+            {
+                var uri = new Uri(Environment.GetEnvironmentVariable("FORECAST_SERVICE_URI") ?? "http://localhost:5002/");
+                c.BaseAddress = uri;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
