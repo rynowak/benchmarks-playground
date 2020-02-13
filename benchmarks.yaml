@@ -1,3 +1,5 @@
+imports:
+- https://raw.githubusercontent.com/aspnet/Benchmarks/master/src/Wrk2Client/wrk2.yml
 variables:
   headers:
     none: ''
@@ -111,22 +113,6 @@ jobs:
       dockerContextDirectory: go/forecastapp-gogrpc/
       dockerFile: go/forecastapp-gogrpc/Dockerfile
     readyStateText: app listening on port 8080!
-  bombardier:
-    source:
-      repository: https://github.com/aspnet/benchmarks.git
-      branchOrCommit: master
-      project: src/BombardierClient/BombardierClient.csproj
-    readyStateText: Bombardier Client
-    sdkVersion: 3.0.100
-    aspNetCoreVersion: '3.0'
-    runtimeVersion: '3.0'
-    waitForExit: true
-    scenario: Bombardier
-    variables:
-      connections: 32
-      duration: 5
-      rps: ''
-    arguments: "-c {{connections}} {{serverUri}}{{path}} -d {{duration}}s {% if rps != '' %} --rate={{rps}} {% endif %} {% if headers[presetHeaders] != '' %} -l {{headers[presetHeaders]}} {% endif %}"
 scenarios:
   weatherapp-route-to-code:
     forecast:
@@ -134,159 +120,159 @@ scenarios:
     weather:
       job: weatherapp-route-to-code
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-controllers:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-controllers
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-go:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-go
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-gofasthttp:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-gofasthttp
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-springboot:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-springboot
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-springbootwebflux:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-springbootwebflux
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-quarkus:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-quarkus
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-express:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-express
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20
   weatherapp-flask:
     forecast:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-flask
     warmup:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 10
-        rps: 50
+        duration: 20
+        rate: 50
       options:
         discardResults: true
     load:
-      job: bombardier
+      job: wrk2
       variables:
         path: /
-        duration: 15
+        duration: 20

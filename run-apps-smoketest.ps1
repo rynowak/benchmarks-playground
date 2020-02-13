@@ -2,10 +2,11 @@
 
 $weather_url = $env:PERF_LINUX_URL
 $forecast_url = $env:PERF_LOAD_URL
-$load_url = $env:PERF_WINDOWS_URL
+$load_url = $env:PERF_DB_URL
 
 $forecast_service_url = $env:PERF_LOAD_SERVER_URL
 $weather_server_url = $env:PERF_LINUX_SERVER_URL
+$weather_server_port = $env:PERF_LINUX_SERVER_PORT
 
 if (-not $forecast_url) {
     Write-Error "missing required environment variable"
@@ -27,6 +28,11 @@ if (-not $weather_server_url) {
     return 1
 }
 
+if (-not $weather_server_port) {
+    Write-Host "missing required environment variable"
+    return 1
+}
+
 if (-not $forecast_service_url) {
     Write-Host "missing required environment variable"
     return 1
@@ -43,9 +49,9 @@ $i = 0;
 $count = $scenarios.Count
 
 foreach ($scenario in $scenarios) {
-    $rps = "25000"
-    $cpu = "1.0"
-    $memory = "500M"
+    $rps = "100"
+    $cpu = "0.25"
+    $memory = "30M"
     $scaled_cpus = [System.Math]::Max([double]$scenario.cpu, 1.0)
 
     $i++
@@ -56,8 +62,9 @@ foreach ($scenario in $scenarios) {
         --scenario $scenario `
         --warmup.endpoints $load_url `
         --load.endpoints $load_url `
-        --load.variables.rps $rps `
-        --load.variables.connections 256 `
+        --load.variables.rate $rps `
+        --load.variables.connections 32 `
+        --load.options.displayOutput true `
         --forecast.endpoints $forecast_url `
         --forecast.options.displayBuild true `
         --forecast.options.displayOutput true `
@@ -69,6 +76,7 @@ foreach ($scenario in $scenarios) {
         --weather.options.displayBuild true `
         --weather.options.displayOutput true `
         --variable serverUri=$weather_server_url `
+        --variable serverPort=$weather_server_port `
         --output "$PSScriptRoot\results\$scenario-smoketest.json" `
         --property "cpu=$cpu" `
         --property "memory=$memory" `

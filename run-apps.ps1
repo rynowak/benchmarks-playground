@@ -2,7 +2,7 @@
 
 $weather_url = $env:PERF_LINUX_URL
 $forecast_url = $env:PERF_LOAD_URL
-$load_url = $env:PERF_WINDOWS_URL
+$load_url = $env:PERF_DB_URL
 
 $forecast_service_url = $env:PERF_LOAD_SERVER_URL
 $weather_server_url = $env:PERF_LINUX_SERVER_URL
@@ -59,7 +59,7 @@ for (; $i -lt $scenarios.Count; $i++)
         --warmup.endpoints $load_url `
         --load.endpoints $load_url `
         --load.variables.connections $connections `
-        --load.variables.rps $rps `
+        --load.variables.rate $rps `
         --forecast.endpoints $forecast_url `
         --forecast.options.displayBuild true `
         --forecast.options.displayOutput true `
