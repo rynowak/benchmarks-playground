@@ -130,7 +130,7 @@ jobs:
       dockerFile: go/forecastapp-gogrpc/Dockerfile
     readyStateText: app listening on port 8080!
 scenarios:
-  weatherapp-route-to-code:
+  dotnet-route-to-code:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -140,7 +140,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -148,7 +148,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-controllers:
+  dotnet-controllers:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -158,7 +158,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -166,7 +166,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-go:
+  go-stdlib:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -176,7 +176,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -184,7 +184,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-gofasthttp:
+  go-fasthttp:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -194,7 +194,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -202,7 +202,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-springboot:
+  java-springboot:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -212,7 +212,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -220,7 +220,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-springbootwebflux:
+  java-springbootwebflux:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -230,7 +230,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -238,17 +238,17 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-quarkus:
+  java-quarkus-graal:
     forecast:
       job: forecastapp-gofasthttp
     weather:
-      job: weatherapp-quarkus
+      job: weatherapp-quarkus-graal
     warmup:
       job: wrk2
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -256,7 +256,25 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-express:
+  java-quarkus-jvm:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-quarkus-jvm
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  node-express:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -266,7 +284,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:
@@ -274,7 +292,25 @@ scenarios:
       variables:
         path: /
         duration: 20
-  weatherapp-flask:
+  python-aiohttp:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-aiohttp
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  python-flask:
     forecast:
       job: forecastapp-gofasthttp
     weather:
@@ -284,7 +320,7 @@ scenarios:
       variables:
         path: /
         duration: 20
-        rate: 50
+        rate: 10
       options:
         discardResults: true
     load:

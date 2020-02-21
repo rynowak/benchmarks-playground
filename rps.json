@@ -8,8 +8,16 @@
         "connections": 4
     },
     {
+        "rps": 500,
+        "connections": 8
+    },
+    {
         "rps": 1000,
         "connections": 40
+    },
+    {
+        "rps": 5000,
+        "connections": 80
     },
     {
         "rps": 10000,

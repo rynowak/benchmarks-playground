@@ -1,13 +1,13 @@
 [
-    "weatherapp-route-to-code",
-    "weatherapp-controllers",
-    "weatherapp-go",
-    "weatherapp-gofasthttp",
-    "weatherapp-springboot",
-    "weatherapp-springbootwebflux",
-    "weatherapp-quarkus-graal",
-    "weatherapp-quarkus-jvm",
-    "weatherapp-express",
-    "weatherapp-aiohttp",
-    "weatherapp-flask"
+    "dotnet-route-to-code",
+    "dotnet-controllers",
+    "go-stdlib",
+    "go-fasthttp",
+    "java-springboot",
+    "java-springbootwebflux",
+    "java-quarkus-graal",
+    "java--quarkus-jvm",
+    "node-express",
+    "python-aiohttp",
+    "python-flask"
 ]
