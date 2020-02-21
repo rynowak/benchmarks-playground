@@ -6,7 +6,7 @@
     "java-springboot",
     "java-springbootwebflux",
     "java-quarkus-graal",
-    "java--quarkus-jvm",
+    "java-quarkus-jvm",
     "node-express",
     "python-aiohttp",
     "python-flask"

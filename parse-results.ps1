@@ -1,6 +1,6 @@
 function Parse-Result([string] $filePath)
 {
-    $duration = 15; # in seconds
+    $duration = 20; # in seconds
     $cpu_count = 12;
 
     $json = Get-Content -Raw -Path $filePath | ConvertFrom-Json;
@@ -16,10 +16,14 @@ function Parse-Result([string] $filePath)
     $result.'CPU Utilization %' = $weather.results.'benchmarks/cpu/raw'
     $result.'Max CPU Utilization %' = [math]::Round(([double]$json.properties.cpu) * (([double]100)), 2)
     $result.'Working Set (MB)' = $weather.results.'benchmarks/working-set'
-    $result.'Mean Latency (ms)' = [math]::Round(([double]$load.results.'bombardier/latency/mean') / 1000, 2)
-    $result.'Completed Requests' = $load.results.'bombardier/requests'
-    $result.'Completed Requests (%)' = [math]::Round(($load.results.'bombardier/requests' / ($duration * ([double]$json.properties.rps))) * 100, 2)
-    $result.'Bad Responses' = $load.results.'bombardier/badresponses'
+    $result.'Swap (MB)' = $weather.results.'benchmarks/swap'
+
+    $result.'Latency 50% (ms)' = [math]::Round(([double]$load.results.'wrk2/latency/50'), 2)
+    $result.'Latency 75% (ms)' = [math]::Round(([double]$load.results.'wrk2/latency/75'), 2)
+    $result.'Latency 90% (ms)' = [math]::Round(([double]$load.results.'wrk2/latency/90'), 2)
+    $result.'Completed Requests' = $load.results.'wrk2/requests'
+    $result.'Completed Requests (%)' = [math]::Round(($load.results.'wrk2/requests' / ($duration * ([double]$json.properties.rps))) * 100, 2)
+
     return [PSCustomObject]$result
 }
 

@@ -50,8 +50,8 @@ $count = $scenarios.Count
 
 foreach ($scenario in $scenarios) {
     $rps = "100"
-    $cpu = "0.25"
-    $memory = "30M"
+    $cpu = "1.0"
+    $memory = "250M"
     $scaled_cpus = [System.Math]::Max([double]$scenario.cpu, 1.0)
 
     $i++
