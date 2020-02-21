@@ -49,14 +49,22 @@ jobs:
       dockerContextDirectory: java/weatherapp-springbootwebflux/
       dockerFile: java/weatherapp-springbootwebflux/Dockerfile
     readyStateText: Started WeatherappApplication
-  weatherapp-quarkus:
+  weatherapp-quarkus-graal:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git
       branchOrCommit: master
       dockerImageName: weatherapp-quarkus
       dockerContextDirectory: java/weatherapp-quarkus/
-      dockerFile: java/weatherapp-quarkus/Dockerfile
+      dockerFile: java/weatherapp-quarkus/Dockerfile.graal
     readyStateText: "Listening on: http://0.0.0.0"
+  weatherapp-quarkus-jvm:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-quarkus
+      dockerContextDirectory: java/weatherapp-quarkus/
+      dockerFile: java/weatherapp-quarkus/Dockerfile.jvm
+    readyStateText: "Listening on: http://0.0.0.0:5000"
   weatherapp-go:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git

@@ -5,7 +5,8 @@
     "weatherapp-gofasthttp",
     "weatherapp-springboot",
     "weatherapp-springbootwebflux",
-    "weatherapp-quarkus",
+    "weatherapp-quarkus-graal",
+    "weatherapp-quarkus-jvm",
     "weatherapp-express",
     "weatherapp-aiohttp",
     "weatherapp-flask"
