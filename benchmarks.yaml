@@ -89,6 +89,14 @@ jobs:
       dockerContextDirectory: node/weatherapp-expressclustered/
       dockerFile: node/weatherapp-expressclustered/Dockerfile
     readyStateText: app listening on port 5000!
+  weatherapp-aiohttp:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-aiohttp
+      dockerContextDirectory: python/weatherapp-aiohttp/
+      dockerFile: python/weatherapp-aiohttp/Dockerfile
+    readyStateText: 'Listening at:'
   weatherapp-flask:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git

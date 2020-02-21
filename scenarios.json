@@ -7,5 +7,6 @@
     "weatherapp-springbootwebflux",
     "weatherapp-quarkus",
     "weatherapp-express",
+    "weatherapp-aiohttp",
     "weatherapp-flask"
 ]
