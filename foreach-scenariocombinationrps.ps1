@@ -13,6 +13,7 @@ for ($i = 0; $i -lt $scenarios.Count; $i++)
                 scenario = $scenarios[$i]
                 rps = $rps_values[$k].rps
                 connections = $rps_values[$k].connections
+                threads = $rps_values[$k].threads
                 cpu = $combinations[$j].cpu
                 memory = $combinations[$j].memory })
         }

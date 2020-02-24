@@ -61,9 +61,11 @@ foreach ($scenario in $scenarios) {
         --config "$PSScriptRoot\benchmarks.yaml" `
         --scenario $scenario `
         --warmup.endpoints $load_url `
+        --warmup.options.displayOutput true `
         --load.endpoints $load_url `
         --load.variables.rate $rps `
         --load.variables.connections 32 `
+        --load.variables.threads 32 `
         --load.options.displayOutput true `
         --forecast.endpoints $forecast_url `
         --forecast.options.displayBuild true `

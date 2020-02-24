@@ -6,6 +6,7 @@ $load_url = $env:PERF_DB_URL
 
 $forecast_service_url = $env:PERF_LOAD_SERVER_URL
 $weather_server_url = $env:PERF_LINUX_SERVER_URL
+$weather_server_port = $env:PERF_LINUX_SERVER_PORT
 
 if (-not $forecast_url) {
     Write-Error "missing required environment variable"
@@ -48,6 +49,7 @@ for (; $i -lt $scenarios.Count; $i++)
     $scenario = $entry.scenario
     $rps = $entry.rps
     $connections = $entry.connections
+    $threads = $entry.threads
     $cpu = $entry.cpu
     $memory = $entry.memory
     $scaled_cpus = [System.Math]::Max([double]$scenario.cpu, 1.0)
@@ -59,7 +61,9 @@ for (; $i -lt $scenarios.Count; $i++)
         --warmup.endpoints $load_url `
         --load.endpoints $load_url `
         --load.variables.connections $connections `
+        --load.variables.threads $threads `
         --load.variables.rate $rps `
+        --load.options.displayOutput true `
         --forecast.endpoints $forecast_url `
         --forecast.options.displayBuild true `
         --forecast.options.displayOutput true `
@@ -71,6 +75,7 @@ for (; $i -lt $scenarios.Count; $i++)
         --weather.options.displayBuild true `
         --weather.options.displayOutput true `
         --variable serverUri=$weather_server_url `
+        --variable serverPort=$weather_server_port `
         --output "$PSScriptRoot\results\$scenario-$rps-$cpu-$memory.json" `
         --property "cpu=$cpu" `
         --property "memory=$memory" `
