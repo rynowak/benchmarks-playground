@@ -16,7 +16,7 @@ async def weather(request):
 
 async def run():
     app = web.Application()
-    app.router.add_get('/weather', weather)
+    app.router.add_get('/', weather)
     return app
 
 if __name__ == '__main__':
