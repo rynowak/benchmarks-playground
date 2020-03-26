@@ -1,4 +1,4 @@
-FROM golang:1.13.5-alpine3.10 AS build-env
+FROM golang:1.14.1-alpine3.11 AS build-env
 RUN apk --no-cache add build-base git bzr mercurial gcc
 WORKDIR /src
 COPY . ./

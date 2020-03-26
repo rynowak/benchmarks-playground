@@ -1,6 +1,6 @@
 module github.com/rynowak/benchmarks-playground/go/forecastapp-gogrpc
 
-go 1.13
+go 1.14
 
 require (
 	github.com/golang/protobuf v1.3.2

@@ -1,6 +1,6 @@
 module github.com/rynowak/benchmarks-playground/go/forecastapp-gofasthttp
 
-go 1.13
+go 1.14
 
 require (
 	github.com/fasthttp/router v0.5.5
