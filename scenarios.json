@@ -9,5 +9,6 @@
     "java-quarkus-jvm",
     "node-express",
     "python-aiohttp",
-    "python-flask"
+    "python-flask",
+    "rust-actix"
 ]

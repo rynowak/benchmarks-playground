@@ -15,6 +15,7 @@ apps[java/weatherapp-quarkus]="rynowak/weatherapp-quarkus"
 apps[node/weatherapp-express]="rynowak/weatherapp-express"
 apps[node/weatherapp-expressclustered]="rynowak/weatherapp-expressclustered"
 apps[python/weatherapp-flask]="rynowak/weatherapp-flask"
+apps[rust/weatherapp-actix]="rynowak/weatherapp-actix"
 
 for dir tag in ${(kv)apps}
 do

@@ -113,6 +113,14 @@ jobs:
       dockerContextDirectory: python/weatherapp-flask/
       dockerFile: python/weatherapp-flask/Dockerfile
     readyStateText: 'Listening at:'
+  weatherapp-actix:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-actix
+      dockerContextDirectory: rust/weatherapp-actix/
+      dockerFile: rust/weatherapp-actix/Dockerfile
+    readyStateText: "Listening on: http://0.0.0.0:5000"
   forecastapp-gofasthttp:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git
@@ -315,6 +323,24 @@ scenarios:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-flask
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  rust-actix:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-actix
     warmup:
       job: wrk2
       variables:
