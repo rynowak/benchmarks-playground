@@ -17,6 +17,16 @@ jobs:
       dockerContextDirectory: "dotnet/weatherapp-route-to-code/"
       dockerFile: "dotnet/weatherapp-route-to-code/Dockerfile"
     readyStateText: Application started.
+  weatherapp-route-to-code-nodocker:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      project: dotnet/weatherapp-route-to-code/weatherapp-route-to-code.csproj
+    readyStateText: Application started.
+    arguments: "--urls=http://*:5000"
+    sdkVersion: 3.0.100
+    aspNetCoreVersion: '3.0'
+    runtimeVersion: '3.0'
   weatherapp-controllers:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git
@@ -143,6 +153,24 @@ scenarios:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-route-to-code
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  dotnet-route-to-code-nodocker:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-route-to-code-nodocker
     warmup:
       job: wrk2
       variables:
