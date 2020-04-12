@@ -17,16 +17,22 @@ jobs:
       dockerContextDirectory: "dotnet/weatherapp-route-to-code/"
       dockerFile: "dotnet/weatherapp-route-to-code/Dockerfile"
     readyStateText: Application started.
-  weatherapp-route-to-code-nodocker:
+  weatherapp-route-to-code-3.1:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git
       branchOrCommit: master
-      project: dotnet/weatherapp-route-to-code/weatherapp-route-to-code.csproj
+      dockerImageName: "weatherapp-route-to-code-3.1"
+      dockerContextDirectory: "dotnet/weatherapp-route-to-code/"
+      dockerFile: "dotnet/weatherapp-route-to-code/Dockerfile"
     readyStateText: Application started.
-    arguments: "--urls=http://*:5000"
-    sdkVersion: 3.0.100
-    aspNetCoreVersion: '3.0'
-    runtimeVersion: '3.0'
+  weatherapp-route-to-code-3.0:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: "weatherapp-route-to-code-3.0"
+      dockerContextDirectory: "dotnet/weatherapp-route-to-code/"
+      dockerFile: "dotnet/weatherapp-route-to-code/legacy-3.0.Dockerfile"
+    readyStateText: Application started.
   weatherapp-controllers:
     source:
       repository: https://github.com/rynowak/benchmarks-playground.git
@@ -34,6 +40,38 @@ jobs:
       dockerImageName: weatherapp-controllers
       dockerContextDirectory: dotnet/weatherapp-controllers/
       dockerFile: dotnet/weatherapp-controllers/Dockerfile
+    readyStateText: Application started.
+  weatherapp-controllers-3.1:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-controllers-3.1
+      dockerContextDirectory: dotnet/weatherapp-controllers/
+      dockerFile: dotnet/weatherapp-controllers/Dockerfile
+    readyStateText: Application started.
+  weatherapp-controllers-3.0:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-controllers-3.0
+      dockerContextDirectory: dotnet/weatherapp-controllers/
+      dockerFile: dotnet/weatherapp-controllers/legacy-3.0.Dockerfile
+    readyStateText: Application started.
+  weatherapp-controllers-2.2:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-controllers-2.2
+      dockerContextDirectory: dotnet/weatherapp-controllers-legacy/
+      dockerFile: dotnet/weatherapp-controllers-legacy/legacy-2.2.Dockerfile
+    readyStateText: Application started.
+  weatherapp-controllers-2.1:
+    source:
+      repository: https://github.com/rynowak/benchmarks-playground.git
+      branchOrCommit: master
+      dockerImageName: weatherapp-controllers-2.1
+      dockerContextDirectory: dotnet/weatherapp-controllers-legacy/
+      dockerFile: dotnet/weatherapp-controllers-legacy/legacy-2.1.Dockerfile
     readyStateText: Application started.
   weatherapp-grpc:
     source:
@@ -166,11 +204,29 @@ scenarios:
       variables:
         path: /
         duration: 20
-  dotnet-route-to-code-nodocker:
+  dotnet-route-to-code-3.1:
     forecast:
       job: forecastapp-gofasthttp
     weather:
-      job: weatherapp-route-to-code-nodocker
+      job: weatherapp-route-to-code-3.1
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  dotnet-route-to-code-3.0:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-route-to-code-3.0
     warmup:
       job: wrk2
       variables:
@@ -189,6 +245,78 @@ scenarios:
       job: forecastapp-gofasthttp
     weather:
       job: weatherapp-controllers
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  dotnet-controllers-3.1:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-controllers-3.1
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  dotnet-controllers-3.0:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-controllers-3.0
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  dotnet-controllers-2.2:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-controllers-2.2
+    warmup:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+        rate: 10
+      options:
+        discardResults: true
+    load:
+      job: wrk2
+      variables:
+        path: /
+        duration: 20
+  dotnet-controllers-2.1:
+    forecast:
+      job: forecastapp-gofasthttp
+    weather:
+      job: weatherapp-controllers-2.1
     warmup:
       job: wrk2
       variables:

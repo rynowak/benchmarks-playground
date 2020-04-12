@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -39,8 +40,7 @@ namespace weatherapp_route_to_code
 
                 endpoints.MapGet("/", async context =>
                 {
-                    var bytes = await client.GetByteArrayAsync("/forecast");
-                    var forecast = JsonSerializer.Deserialize<WeatherForecast>(bytes);
+                    var forecast = await client.GetFromJsonAsync<WeatherForecast>("/forecast");
                     var report = new WeatherReport()
                     {
                         Location = "Seattle",

@@ -1,9 +1,8 @@
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace weatherapp_controllers
+namespace weatherapp_controllers_legacy
 {
     [ApiController]
     public class WeatherController : ControllerBase
@@ -19,7 +18,11 @@ namespace weatherapp_controllers
         public async Task<ActionResult<WeatherReport>> GetWeather()
         {
             var client = _factory.CreateClient();
-            var forecast = await client.GetFromJsonAsync<WeatherForecast>("/forecast");
+
+            var response = await client.GetAsync("/forecast");
+            response.EnsureSuccessStatusCode();
+
+            var forecast = await response.Content.ReadAsAsync<WeatherForecast>();
             return new WeatherReport() { Location = "Seattle", Forecast = forecast.Weather, };
         }
     }
